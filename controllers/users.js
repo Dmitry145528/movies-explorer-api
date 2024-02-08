@@ -25,13 +25,10 @@ const createUser = async (req, res, next) => {
     });
     return res.status(HTTP2_STATUS.HTTP_STATUS_CREATED).send(
       {
-        data:
-        {
-          _id: user._id,
-          email: req.body.email,
-          password: hashedPassword,
-          name: req.body.name,
-        },
+        _id: user._id,
+        email: req.body.email,
+        password: hashedPassword,
+        name: req.body.name,
       },
     );
   } catch (error) {
