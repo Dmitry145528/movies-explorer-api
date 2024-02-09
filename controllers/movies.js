@@ -7,11 +7,9 @@ const { ForbiddenError } = require('../errors/ForbiddenError');
 
 const HTTP2_STATUS = http2.constants;
 
-let movies = [];
-
 const getMovies = async (req, res, next) => {
   try {
-    movies = await Movie.find({ owner: req.user._id });
+    const movies = await Movie.find({ owner: req.user._id });
 
     return res.status(HTTP2_STATUS.HTTP_STATUS_OK).send(movies);
   } catch (error) {
