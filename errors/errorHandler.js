@@ -12,8 +12,8 @@ const errorHandler = (error, req, res, next) => {
     errorMessage = { message: error.message };
   }
 
+  res.status(statusCode).send(errorMessage);
   next();
-  return res.status(statusCode).send(errorMessage);
 };
 
 module.exports = {
