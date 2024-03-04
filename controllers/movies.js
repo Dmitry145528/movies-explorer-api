@@ -19,7 +19,7 @@ const getMovies = async (req, res, next) => {
 
 const deleteMovie = async (req, res, next) => {
   try {
-    const movie = await Movie.findOne({ movieId: req.params.movieId });
+    const movie = await Movie.findOne({ movieId: req.params.movieId, owner: req.user._id });
 
     if (!movie) {
       return next(new NotFoundError('Фильм с указанным _id не найден.'));
@@ -29,7 +29,7 @@ const deleteMovie = async (req, res, next) => {
       return next(new ForbiddenError('У вас нет прав на удаление этого фильма.'));
     }
 
-    await Movie.findOneAndDelete({ movieId: req.params.movieId }).orFail(
+    await Movie.findOneAndDelete({ movieId: req.params.movieId, owner: req.user._id }).orFail(
       () => new Error('NotFoundError'),
     );
 
