@@ -23,6 +23,10 @@ const createUser = async (req, res, next) => {
       password: hashedPassword,
       name: req.body.name,
     });
+
+    const token = jwt.sign({ _id: user._id }, NODE_ENV !== 'production' ? 'dev-secret' : JWT_SECRET, { expiresIn: '7d' });
+    res.cookie('jwt', token, { httpOnly: true, maxAge: 3600000 * 24 * 7, sameSite: true });
+
     return res.status(HTTP2_STATUS.HTTP_STATUS_CREATED).send(
       {
         _id: user._id,
@@ -63,6 +67,9 @@ const updateUser = async (req, res, next) => {
     }
     if (error instanceof MongooseError.ValidationError) {
       return next(new BadRequestError('Переданы некорректные данные при обновлении профиля.'));
+    }
+    if (error.code === MONGO_ERROR_CODE_DUPLICATE) {
+      return next(new ConflictError('Пользователь с таким email уже существует'));
     }
     return next(error);
   }
