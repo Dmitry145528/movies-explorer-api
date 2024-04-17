@@ -16,7 +16,7 @@ const { signInValidation, signUpValidation } = require('./utils/validation');
 const { PORT, MONGO_URL, NODE_ENV } = process.env;
 
 const app = express();
-app.use(cors({ origin: ['https://project-movies.nomoredomainswork.ru', 'http://localhost:5173'], credentials: true, maxAge: 120 }));
+app.use(cors({ origin: ['176.123.166.66', 'http://localhost:5173'], credentials: true, maxAge: 120 }));
 app.use(helmet());
 mongoose.connect(NODE_ENV !== 'production' ? 'mongodb://127.0.0.1:27017/bitfilmsdb' : MONGO_URL);
 
